@@ -2,14 +2,10 @@ var app = (function() {
 
     'use strict';
 
-    var CONFIG = {
-        defaultIndicator : "NY.GDP.MKTP.KD.ZG"
-    };
-
     /**
      * Loops through array and finds max number
      * @param {type} array
-     * @returns {Number} max - maximum number
+     * @returns {Number|max} 
      */
     function getMax(array) {
         var max = 0;
@@ -21,8 +17,8 @@ var app = (function() {
         }
         return max;
     }
-
-    var loader = {
+    
+        var loader = {
         selector : ".loader",
         dom : undefined,
         show : function(){
@@ -39,15 +35,10 @@ var app = (function() {
         }
     };
 
-    /* Handles data format makes them compatible with datamap
-     * @param {Object} data - data as received by world bank
-     * @return {object} returnObj- an object containing 2  properties fillObjs and countriesObj
-     * @property {Object} returnObj.fillObj -
-     * @property {Object} returnObj.countriesObj -
-     * */
+    /* Handles data format makes them compatible with datamap */
     function dataMediator(data) {
         var ajxdata = (typeof data === "object") ? data : JSON.parse(data);
-        var maxPrice = getMax(data);
+        var maxPrice = getMax(data);//parseFloat(parseFloat(ajxdata.max_price).toFixed(2));
 
         var fillObj = {};
         var listInObjFormat = {};
@@ -70,30 +61,25 @@ var app = (function() {
             countriesObj: listInObjFormat
         };
     }
-
-    /**
-     * Makes sure to format a multi digit number into a more readable number
-     * @param {Number} number - number as provided by World Bank
-     * @return {String} formatedNumber - an easily readable number
-     * */
+    
     function numberFormat( number ){
-
+        
         var digitCount = (number+"").length;
         var formatedNumber = number+"";
         var ind = digitCount%3 || 3;
         var temparr = formatedNumber.split('');
-
+        
         if( digitCount > 3 && digitCount <= 6 ){
-
+            
             temparr.splice(ind,0,',');
             formatedNumber = temparr.join('');
-
+            
         }else if (digitCount >= 7 && digitCount <= 15) {
             var temparr2 = temparr.slice(0, ind);
             temparr2.push(',');
             temparr2.push(temparr[ind]);
             temparr2.push(temparr[ind + 1]);
-
+            // temparr2.push( temparr[ind + 2] ); 
             if (digitCount >= 7 && digitCount <= 9) {
                 temparr2.push(" million");
             } else if (digitCount >= 10 && digitCount <= 12) {
@@ -108,9 +94,10 @@ var app = (function() {
     }
 
     /*
-     * @param {Object} passedObj
-     * @property {Object} passedObj.countryData
-     * @property {Object} passedObj.countryProperties
+     * @param {type} passedObj
+     *      passedObj.countryData
+     *      passedObj.countryProperties
+     * @returns {undefined}
      */
     function countryHoverTemplate(passedObj) {
 
@@ -120,7 +107,8 @@ var app = (function() {
 
         var val = passedObj.countryData.value;
         var date = passedObj.countryData.date;
-
+        
+//        val = (!!val) ? ( val.indexOf('.') && Number(val) => 1000 ? Number(val).toFixed(2) : numberFormat( val ) ) : "nodata";
         if(!!val){
             if( val.indexOf('.') && Number(val)  < 100 ){
                 val = Number(val).toFixed(2);
@@ -149,46 +137,47 @@ var app = (function() {
     }
 
     /*
-     * @param {Object} countriesData
+     * @param {Object} countriesData 
      *      countriesData.fillObj
      *      countriesData.countriesObj
      * @returns {undefined}
      */
     function dataMapInit(countriesData) {
 
-        countriesData.fillObj.defaultFill = '#444';
-        var mapDom = document.getElementById('container');
 
+        countriesData.fillObj.defaultFill = '#444';
+//    console.log( countriesData );
+        var mapDom = document.getElementById('container');
         while (mapDom.firstChild) {
             mapDom.removeChild(mapDom.firstChild);
         }
 
         window.Map = new Datamap(
-            {
-                element: document.getElementById('container'),
-                projection: 'mercator',
-                fills: countriesData.fillObj,
-                data: dataObjZ,
-                responsive: true,
-                geographyConfig: {
-                    popupTemplate: function(geography, data) {
+                {
+                    element: document.getElementById('container'),
+                    projection: 'mercator',
+                    fills: countriesData.fillObj,
+                    data: dataObjZ,
+                    responsive: true,
+                    geographyConfig: {
+                        popupTemplate: function(geography, data) {
 
-                        var item = countriesData.countriesObj[topoToWb[geography.id]];
+                            var item = countriesData.countriesObj[topoToWb[geography.id]];
 
-                        var template = countryHoverTemplate({
-                            countryData: item,
-                            countryProperties: geography.properties
-                        });
+                            var template = countryHoverTemplate({
+                                countryData: item,
+                                countryProperties: geography.properties
+                            });
 
-                        return template;
+                            return template;
 
+                        },
+                        highlightBorderColor: 'brown'
                     },
-                    highlightBorderColor: 'brown'
-                },
-                done: function() {
+                    done: function() {
 
+                    }
                 }
-            }
 
         );
 
@@ -202,7 +191,7 @@ var app = (function() {
         resizeMapTimer = setTimeout(function() {
 
             mapSize();
-
+            
             Map.resize();
         }, 250);
 
@@ -293,9 +282,13 @@ var app = (function() {
                 type: 'GET',
                 url: url,
                 dataType: 'jsonp',
-                success: function(data) {},
-                error: function(error) {},
-                done: function() {}
+                success: function(data) {
+//                console.log("success");
+                }, error: function(error) {
+//                console.log("error");
+                }, done: function() {
+//                console.log("done");
+                }
             });
         }
         ;
@@ -307,9 +300,9 @@ var app = (function() {
     })();
 
 
-    function getByIndicator(ind) {
-        /** Show loader before triggerin get indicator  */
-        loader.show();
+     function getByIndicator(ind) {
+         /** Show loader before triggerin get indicator  */
+         loader.show();
         return dataProvider.getData(dataProvider.getDataUrl({
             countries: true,
             indicator: ind,
@@ -318,10 +311,10 @@ var app = (function() {
             callback: "app.allbyindicatorcallback"
         }));
     }
-
-    /* Default indicator  */
-    getByIndicator(CONFIG.defaultIndicator);
-
+    
+    /*  */
+    getByIndicator("EP.PMP.SGAS.CD");
+    
     dataProvider.getData(dataProvider.getDataUrl({
         topics: true,
         callback: "app.indicatorscallback"
@@ -345,6 +338,7 @@ var app = (function() {
     }
 
     /* Utilities and services */
+
     function getColorForPercentage(pct) {
 
         var percentColors = [
@@ -370,17 +364,15 @@ var app = (function() {
         };
         return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
     }
+    
+    
+
+
 
     return {
-        indicatorscallback: function(){
-            return indicatorscallback;
-        },
-        allbyindicatorcallback: function(){
-            return allbyindicatorcallback;
-        },
-        getByIndicator: function(){
-            return getByIndicator;
-        },
+        indicatorscallback: indicatorscallback,
+        allbyindicatorcallback: allbyindicatorcallback,
+        getByIndicator: getByIndicator,
         loader: loader
     };
 })();
