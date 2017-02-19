@@ -11,7 +11,7 @@ var IndicatorRow = React.createClass({
         for (var key in this.props.indicatorsOfGroup) {
             /* @NOTE To change,
              * Pump price for gasoline selected */
-            if (key === "EP.PMP.SGAS.CD") {
+            if (key === "NY.GDP.MKTP.KD.ZG") {
                 indicators.push(React.createElement(
                     "option",
                     { value: key, selected: "selected" },
