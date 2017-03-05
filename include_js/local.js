@@ -375,6 +375,7 @@ var app = (function() {
     }
 
     return {
+        CONFIG : CONFIG,
         indicatorscallback: function(data){
             return indicatorscallback(data);
         },
