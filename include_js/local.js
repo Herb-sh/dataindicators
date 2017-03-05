@@ -244,7 +244,7 @@ var app = (function() {
          * @returns {String}
          */
         function getDataUrl(obj) {
-            var url = CONFIK.apiUrl;
+            var url = CONFIG.apiUrl;
 
             if (obj && !obj.topics && !obj.country && !obj.countries) {
                 throw("countries or topics required");
