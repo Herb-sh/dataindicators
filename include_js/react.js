@@ -3,7 +3,6 @@
 var IndicatorRow = React.createClass({
     displayName: "IndicatorRow",
 
-
     render: function render() {
 
         var indicators = [];
@@ -75,4 +74,6 @@ var IndicatorGroup = React.createClass({
     }
 });
 
-ReactDOM.render(React.createElement(IndicatorGroup, { indicatorsGroups: indicatorsSelected }), document.getElementById('components'));
+ReactDOM.render(React.createElement(IndicatorGroup,
+    { indicatorsGroups: indicatorsSelected }),
+    document.getElementById('components'));

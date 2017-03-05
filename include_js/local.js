@@ -375,14 +375,14 @@ var app = (function() {
     }
 
     return {
-        indicatorscallback: function(){
-            return indicatorscallback();
+        indicatorscallback: function(data){
+            return indicatorscallback(data);
         },
         allbyindicatorcallback: function(data){
             return allbyindicatorcallback(data);
         },
-        getByIndicator: function(){
-            return getByIndicator();
+        getByIndicator: function(data){
+            return getByIndicator(data);
         },
         loader: loader
     };
