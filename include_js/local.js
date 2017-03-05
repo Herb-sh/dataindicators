@@ -3,6 +3,7 @@ var app = (function() {
     'use strict';
 
     var CONFIG = {
+        apiUrl: 'https://thingproxy.freeboard.io/fetch/http://api.worldbank.org/',
         defaultIndicator : "NY.GDP.MKTP.KD.ZG"
     };
 
@@ -243,7 +244,7 @@ var app = (function() {
          * @returns {String}
          */
         function getDataUrl(obj) {
-            var url = "http://api.worldbank.org/";
+            var url = CONFIK.apiUrl;
 
             if (obj && !obj.topics && !obj.country && !obj.countries) {
                 throw("countries or topics required");
