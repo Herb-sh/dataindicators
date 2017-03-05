@@ -294,7 +294,9 @@ var app = (function() {
                 type: 'GET',
                 url: url,
                 dataType: 'jsonp',
-                success: function(data) {},
+                success: function(data) {
+                    console.log("success, data");
+                },
                 error: function(error) {},
                 done: function() {}
             });
