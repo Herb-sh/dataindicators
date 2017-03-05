@@ -378,8 +378,8 @@ var app = (function() {
         indicatorscallback: function(){
             return indicatorscallback();
         },
-        allbyindicatorcallback: function(){
-            return allbyindicatorcallback();
+        allbyindicatorcallback: function(data){
+            return allbyindicatorcallback(data);
         },
         getByIndicator: function(){
             return getByIndicator();
