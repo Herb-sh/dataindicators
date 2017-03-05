@@ -374,13 +374,13 @@ var app = (function() {
 
     return {
         indicatorscallback: function(){
-            return indicatorscallback;
+            return indicatorscallback();
         },
         allbyindicatorcallback: function(){
-            return allbyindicatorcallback;
+            return allbyindicatorcallback();
         },
         getByIndicator: function(){
-            return getByIndicator;
+            return getByIndicator();
         },
         loader: loader
     };
