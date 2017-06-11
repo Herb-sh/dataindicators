@@ -1,18 +1,20 @@
-var app = (function() {
+var app = (function () {
 
     'use strict';
 
     var CONFIG = {
         apiUrl: 'https://thingproxy.freeboard.io/fetch/http://api.worldbank.org/',
-        defaultIndicator : "NY.GDP.MKTP.KD.ZG"
+        defaultIndicator: "NY.GDP.MKTP.KD.ZG"
     };
+
+    var wbToTopo = appData.getWbToTopo();
 
     /**
      * Loops through array and finds max number
      * @param {type} array
      * @returns {Number} max - maximum number
      */
-    function getMax(array) {
+    function getMax (array) {
         var max = 0;
 
         for (var i = 0; i < array.length; i++) {
@@ -24,16 +26,16 @@ var app = (function() {
     }
 
     var loader = {
-        selector : ".loader",
-        dom : undefined,
-        show : function(){
-            if(!this.dom){
+        selector: ".loader",
+        dom: undefined,
+        show: function () {
+            if (!this.dom) {
                 this.dom = $(this.selector);
             }
             $(this.dom).show();
         },
-        hide: function(){
-            if(!this.dom){
+        hide: function () {
+            if (!this.dom) {
                 this.dom = $(this.selector);
             }
             this.dom.hide();
@@ -46,7 +48,7 @@ var app = (function() {
      * @property {Object} returnObj.fillObj -
      * @property {Object} returnObj.countriesObj -
      * */
-    function dataMediator(data) {
+    function dataMediator (data) {
         var ajxdata = (typeof data === "object") ? data : JSON.parse(data);
         var maxPrice = getMax(data);
 
@@ -77,19 +79,19 @@ var app = (function() {
      * @param {Number} number - number as provided by World Bank
      * @return {String} formatedNumber - an easily readable number
      * */
-    function numberFormat( number ){
+    function numberFormat (number) {
 
-        var digitCount = (number+"").length;
-        var formatedNumber = number+"";
-        var ind = digitCount%3 || 3;
+        var digitCount = (number + "").length;
+        var formatedNumber = number + "";
+        var ind = digitCount % 3 || 3;
         var temparr = formatedNumber.split('');
 
-        if( digitCount > 3 && digitCount <= 6 ){
+        if (digitCount > 3 && digitCount <= 6) {
 
-            temparr.splice(ind,0,',');
+            temparr.splice(ind, 0, ',');
             formatedNumber = temparr.join('');
 
-        }else if (digitCount >= 7 && digitCount <= 15) {
+        } else if (digitCount >= 7 && digitCount <= 15) {
             var temparr2 = temparr.slice(0, ind);
             temparr2.push(',');
             temparr2.push(temparr[ind]);
@@ -113,7 +115,7 @@ var app = (function() {
      * @property {Object} passedObj.countryData
      * @property {Object} passedObj.countryProperties
      */
-    function countryHoverTemplate(passedObj) {
+    function countryHoverTemplate (passedObj) {
 
         var indicator = passedObj.countryData.indicator.value;
         var country = passedObj.countryProperties.name;
@@ -122,13 +124,13 @@ var app = (function() {
         var val = passedObj.countryData.value;
         var date = passedObj.countryData.date;
 
-        if(!!val){
-            if( val.indexOf('.') && Number(val)  < 100 ){
+        if (!!val) {
+            if (val.indexOf('.') && Number(val) < 100) {
                 val = Number(val).toFixed(2);
-            }else{
-                val = numberFormat(  Number(val).toFixed(0) );
+            } else {
+                val = numberFormat(Number(val).toFixed(0));
             }
-        }else{
+        } else {
             val = "nodata";
         }
 
@@ -155,7 +157,7 @@ var app = (function() {
      *      countriesData.countriesObj
      * @returns {undefined}
      */
-    function dataMapInit(countriesData) {
+    function dataMapInit (countriesData) {
 
         countriesData.fillObj.defaultFill = '#444';
         var mapDom = document.getElementById('container');
@@ -163,6 +165,9 @@ var app = (function() {
         while (mapDom.firstChild) {
             mapDom.removeChild(mapDom.firstChild);
         }
+
+        var dataObjZ = appData.getDataObjZ();
+        var topoToWb = appData.getTopoToWb();
 
         window.Map = new Datamap(
             {
@@ -172,35 +177,32 @@ var app = (function() {
                 data: dataObjZ,
                 responsive: true,
                 geographyConfig: {
-                    popupTemplate: function(geography, data) {
+                    popupTemplate: function (geography, data) {
 
                         var item = countriesData.countriesObj[topoToWb[geography.id]];
 
-                        var template = countryHoverTemplate({
+                        return countryHoverTemplate({
                             countryData: item,
                             countryProperties: geography.properties
                         });
 
-                        return template;
-
                     },
                     highlightBorderColor: 'brown'
                 },
-                done: function() {
+                done: function () {
 
                 }
             }
-
         );
 
     }
 
-    $(window).off("resize.map").on("resize.map", function() {
+    $(window).off("resize.map").on("resize.map", function () {
         if (typeof resizeMapTimer === "undefined") {
             var resizeMapTimer;
         }
         clearTimeout(resizeMapTimer);
-        resizeMapTimer = setTimeout(function() {
+        resizeMapTimer = setTimeout(function () {
 
             mapSize();
 
@@ -209,7 +211,7 @@ var app = (function() {
 
     });
 
-    function mapSize() {
+    function mapSize () {
 
         var width = $(window).width();
         var height = $(window).height();
@@ -232,7 +234,7 @@ var app = (function() {
     }
 
 
-    var dataProvider = (function() {
+    var dataProvider = (function () {
         /*
          * @param {type} obj
          *      obj.topics {Boolean} to get all topics
@@ -243,7 +245,7 @@ var app = (function() {
          *      obj.callbacks {String} function name lowercase that will handle data in return
          * @returns {String}
          */
-        function getDataUrl(obj) {
+        function getDataUrl (obj) {
             var url = CONFIG.apiUrl;
 
             if (obj && !obj.topics && !obj.country && !obj.countries) {
@@ -289,16 +291,18 @@ var app = (function() {
             return url;
         }
 
-        function getData(url) {
+        function getData (url) {
             $.ajax({
                 type: 'GET',
                 url: url,
                 dataType: 'jsonp',
-                success: function(data) {
+                success: function (data) {
                     console.log("success, data");
                 },
-                error: function(error) {},
-                done: function() {}
+                error: function (error) {
+                },
+                done: function () {
+                }
             });
         }
         ;
@@ -310,7 +314,7 @@ var app = (function() {
     })();
 
 
-    function getByIndicator(ind) {
+    function getByIndicator (ind) {
         /** Show loader before triggerin get indicator  */
         loader.show();
         return dataProvider.getData(dataProvider.getDataUrl({
@@ -331,7 +335,7 @@ var app = (function() {
     }));
 
     /* Data returned Callbacks */
-    function allbyindicatorcallback(data) {
+    function allbyindicatorcallback (data) {
         if (data[1]) {
             var dataConverted = dataMediator(data[1]);
             dataMapInit(dataConverted);
@@ -343,12 +347,12 @@ var app = (function() {
     }
 
     /* . */
-    function indicatorscallback(data) {
+    function indicatorscallback (data) {
         // console.log("indicators",data , data[1]);
     }
 
     /* Utilities and services */
-    function getColorForPercentage(pct) {
+    function getColorForPercentage (pct) {
 
         var percentColors = [
             {pct: 0.0, color: {r: 0xff, g: 0x00, b: 0}},
@@ -375,14 +379,14 @@ var app = (function() {
     }
 
     return {
-        CONFIG : CONFIG,
-        indicatorscallback: function(data){
+        CONFIG: CONFIG,
+        indicatorscallback: function (data) {
             return indicatorscallback(data);
         },
-        allbyindicatorcallback: function(data){
+        allbyindicatorcallback: function (data) {
             return allbyindicatorcallback(data);
         },
-        getByIndicator: function(data){
+        getByIndicator: function (data) {
             return getByIndicator(data);
         },
         loader: loader
