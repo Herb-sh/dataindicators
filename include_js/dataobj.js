@@ -180,8 +180,7 @@ var topoToWb = {
 };
 
 
-
-/* 
+/*
  * 
  * key => world bank country.id 
  * value => topojson country.id
@@ -198,7 +197,6 @@ for (var k in topoToWb) {
 }
 
 
-
 var dataObjZ = {};
 for (var key in topoToWb) {
     dataObjZ[key] = {"fillKey": key};
@@ -208,37 +206,59 @@ for (var key in topoToWb) {
 var indicatorsSelected = {
     "Economy & Growth": {
         "indicators": {
-            "NV.AGR.TOTL.ZS": "Agriculture, value added (% of GDP)",
+            "NY.GDP.MKTP.KD.ZG": "GDP growth (annual %)",
+            "NY.GDP.PCAP.CD": "GDP per capita (current international $)",
+            "NY.GDP.PCAP.PP.CD": "GDP per capita, PPP",
             "GC.DOD.TOTL.GD.ZS": "Central government debt, total (% of GDP)",
+            "NY.GNP.MKTP.PP.CD": "GNI, PPP (current international $)",
             "NE.EXP.GNFS.ZS": "Exports of goods and services (% of GDP)",
+            "NE.IMP.GNFS.ZS": "Imports of goods and services (% of GDP)",
+            "NY.GDP.DEFL.KD.ZG": "Inflation, GDP deflator (annual %)",
+            "FP.CPI.TOTL.ZG": "Inflation, consumer prices (annual %)",
+            "NV.AGR.TOTL.ZS": "Agriculture, value added (% of GDP)",
+            "NV.IND.TOTL.ZS": "Industry, value added (% of GDP)",
+            "NV.SRV.TETC.ZS": "Services, etc., value added (% of GDP)"
 //            "DT.DOD.DECT.CD": "External debt stocks, total (DOD, current US$)",
 //            "BX.KLT.DINV.CD.WD": "Foreign direct investment, net inflows (BoP, current US$)",
 //            "NY.GDP.MKTP.CD": "GDP at market prices (current US$)",
-            "NY.GDP.MKTP.KD.ZG": "GDP growth (annual %)",
-            "NY.GDP.PCAP.CD": "GDP per capita (current US$)",
-            "NY.GNP.MKTP.PP.CD": "GNI, PPP (current international $)",
 //            "NE.GDI.TOTL.ZS": "Gross capital formation (% of GDP)",
 //            "NY.GNS.ICTR.ZS": "Gross savings (% of GDP)",
-            "NE.IMP.GNFS.ZS": "Imports of goods and services (% of GDP)",
-            "NV.IND.TOTL.ZS": "Industry, value added (% of GDP)",
-//            "FP.CPI.TOTL.ZG": "Inflation, consumer prices (annual %)",
-            "NY.GDP.DEFL.KD.ZG": "Inflation, GDP deflator (annual %)"
+        }
+    },
+    "Population": {
+        "indicators" : {
+            "SP.POP.TOTL": "Population",
+            "SP.POP.GROW": "Population growth (annual %)"
+        }
+    },
+    "Education": {
+        "indicators": {
+            "SE.XPD.TOTL.GD.ZS": "Government expenditure on education as % of GDP (%)",
+            "SE.XPD.TOTL.GB.ZS": "Expenditure on education as % of total government expenditure (%)",
+            "SL.TLF.TOTL.IN": "Labor force, total",
+            "SE.PRM.TCAQ.ZS": "Percentage of teachers in primary education who are trained, both sexes (%)",
+            "SP.POP.0014.TO.ZS": "Population, ages 0-14 (% of total)",
+            "SP.POP.1564.TO.ZS": "Population, ages 15-64 (% of total)",
+            "SE.PRM.ENRL.TC.ZS": "Pupil-teacher ratio in primary education (headcount basis)",
+            "SL.UEM.TOTL.ZS": "Unemployment, total (% of total labor force)",
+            "SE.ADT.1524.LT.ZS": "Youth literacy rate, population 15-24 years, both sexes (%)"
         }
     },
     "Energy & Mining": {
         "indicators": {
-            "EG.IMP.CONS.ZS": "Energy imports, net (% of energy use)",
-            "EG.USE.PCAP.KG.OE": "Energy use (kg of oil equivalent per capita)",
-            "EG.USE.COMM.FO.ZS": "Fossil fuel energy consumption (% of total)",
             "EP.PMP.DESL.CD": "Pump price for diesel fuel (US$ per liter)",
-            "EP.PMP.SGAS.CD": "Pump price for gasoline (US$ per liter)"
+            "EP.PMP.SGAS.CD": "Pump price for gasoline (US$ per liter)",
+            "EG.USE.PCAP.KG.OE": "Energy use (kg of oil equivalent per capita)",
+            "EG.IMP.CONS.ZS": "Energy imports, net (% of energy use)",
+            "TX.VAL.FUEL.ZS.UN": "Fuel exports (% of merchandise exports)",
+            "EG.USE.COMM.FO.ZS": "Fossil fuel energy consumption (% of total)"
         }
     },
     "Environment": {
         "indicators": {
             "EG.ELC.ACCS.ZS": "Access to electricity (% of population)",
-            "AG.LND.FRST.K2": "Forest area (sq. km)",
             "EN.ATM.CO2E.PC": "CO2 emissions (metric tons per capita)",
+            "AG.LND.FRST.K2": "Forest area (sq. km)",
             "EG.ELC.RNEW.ZS": "Renewable electricity output (% of total electricity output)",
             "EG.FEC.RNEW.ZS": "Renewable energy consumption (% of total final energy consumption)"
         }
@@ -262,19 +282,6 @@ var indicatorsSelected = {
             "SM.POP.NETM": "Net migration",
             "SP.POP.TOTL.FE.ZS": "Population, female (% of total)",
             "SP.MTR.1519.ZS": "Teenage mothers (% of women ages 15-19 who have had children or are currently pregnant)"
-        }
-    },
-    "Education": {
-        "indicators": {
-            "SE.XPD.TOTL.GD.ZS": "Government expenditure on education as % of GDP (%)",
-            "SE.XPD.TOTL.GB.ZS" : "Expenditure on education as % of total government expenditure (%)",
-            "SL.TLF.TOTL.IN" : "Labor force, total",
-            "SE.PRM.TCAQ.ZS" : "Percentage of teachers in primary education who are trained, both sexes (%)",
-            "SP.POP.0014.TO.ZS" : "Population, ages 0-14 (% of total)",
-            "SP.POP.1564.TO.ZS" : "Population, ages 15-64 (% of total)",
-            "SE.PRM.ENRL.TC.ZS" : "Pupil-teacher ratio in primary education (headcount basis)",
-            "SL.UEM.TOTL.ZS" : "Unemployment, total (% of total labor force)",
-            "SE.ADT.1524.LT.ZS" : "Youth literacy rate, population 15-24 years, both sexes (%)"
         }
     }
 };
