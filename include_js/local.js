@@ -274,7 +274,7 @@ var app = (function () {
                 }
             }
 
-            url += "?per_page=1000&format=jsonP";
+            url += "?per_page=1000&format=jsonp";
 
             if (obj.date) {
                 url += "&date=" + obj.date;
