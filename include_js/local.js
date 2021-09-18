@@ -332,7 +332,7 @@ var app = (function () {
 
     dataProvider.getData(dataProvider.getDataUrl({
         topics: true,
-        callback: "app.indicatorscallback"
+        callback: "indicatorscallback"
     }));
 
     /* Data returned Callbacks */
@@ -394,6 +394,12 @@ var app = (function () {
     };
 })();
 
-function allbyindicatorcallback() {
-    app.allbyindicatorcallback()
+function indicatorscallback(data) {
+    return app.indicatorscallback(data);
+}
+function getByIndicator(data) {
+    return app.getByIndicator(data);
+}
+function allbyindicatorcallback(data) {
+    return app.allbyindicatorcallback(data)
 }
