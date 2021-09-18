@@ -3,7 +3,7 @@ var app = (function () {
     'use strict';
 
     var CONFIG = {
-        apiUrl: 'https://api.worldbank.org/v2/', // @TODO switch to v2 
+        apiUrl: 'https://api.worldbank.org/v2/',
         defaultIndicator: "NY.GDP.MKTP.KD.ZG"
     };
 
@@ -206,7 +206,8 @@ var app = (function () {
 
             mapSize();
 
-            window.DtMap.resize();
+            
+            window.DtMap && window.DtMap.resize();
         }, 250);
 
     });
