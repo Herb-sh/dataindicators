@@ -3,7 +3,7 @@ var app = (function () {
     'use strict';
 
     var CONFIG = {
-        apiUrl: 'http://api.worldbank.org/',
+        apiUrl: 'http://api.worldbank.org/', // @TODO add http to https proxy
         defaultIndicator: "NY.GDP.MKTP.KD.ZG"
     };
 
