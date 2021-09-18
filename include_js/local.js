@@ -206,7 +206,7 @@ var app = (function () {
 
             mapSize();
 
-            DtMap.resize();
+            window.DtMap.resize();
         }, 250);
 
     });
