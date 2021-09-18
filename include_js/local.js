@@ -3,7 +3,7 @@ var app = (function () {
     'use strict';
 
     var CONFIG = {
-        apiUrl: 'https://thingproxy.freeboard.io/fetch/http://api.worldbank.org/',
+        apiUrl: 'http://api.worldbank.org/',
         defaultIndicator: "NY.GDP.MKTP.KD.ZG"
     };
 
