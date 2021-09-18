@@ -169,7 +169,7 @@ var app = (function () {
         var dataObjZ = appData.getDataObjZ();
         var topoToWb = appData.getTopoToWb();
 
-        window.Map = new Datamap(
+        window.DtMap = new Datamap(
             {
                 element: document.getElementById('container'),
                 projection: 'mercator',
@@ -206,7 +206,7 @@ var app = (function () {
 
             mapSize();
 
-            Map.resize();
+            DtMap.resize();
         }, 250);
 
     });
