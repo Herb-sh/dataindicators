@@ -393,3 +393,7 @@ var app = (function () {
         loader: loader
     };
 })();
+
+function allbyindicatorcallback() {
+    app.allbyindicatorcallback()
+}
