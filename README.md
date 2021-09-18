@@ -1,3 +1,3 @@
 # dataindicators
 
-[//] Click <a href="https://herb-sh.github.io/dataindicators/" target="_blank">Data Indicators</a> to check out the app
+<-- Click <a href="https://herb-sh.github.io/dataindicators/" target="_blank">Data Indicators</a> to check out the app -->
