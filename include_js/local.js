@@ -323,7 +323,7 @@ var app = (function () {
             indicator: ind,
             MRV: 1,
             Gapfill: "Y",
-            callback: "app.allbyindicatorcallback"
+            callback: "allbyindicatorcallback"
         }));
     }
 
